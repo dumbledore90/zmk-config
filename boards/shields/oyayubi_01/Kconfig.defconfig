@@ -1,0 +1,16 @@
+if SHIELD_OYAYUBI_01_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "oyayubi_01"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif # SHIELD_OYAYUBI_01_LEFT
+
+if SHIELD_OYAYUBI_01_LEFT || SHIELD_OYAYUBI_01_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif # SHIELD_OYAYUBI_01_LEFT || SHIELD_OYAYUBI_01_RIGHT

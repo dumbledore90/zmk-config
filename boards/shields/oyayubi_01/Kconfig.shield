@@ -1,0 +1,5 @@
+config SHIELD_OYAYUBI_01_LEFT
+    def_bool $(shields_list_contains,oyayubi_01_left)
+
+config SHIELD_OYAYUBI_01_RIGHT
+    def_bool $(shields_list_contains,oyayubi_01_right)

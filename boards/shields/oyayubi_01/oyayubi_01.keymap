@@ -1,20 +1,49 @@
-// This file was generated from a template. Edit it to match your keyboard.
-// See https://zmk.dev/docs/development/hardware-integration/new-shield for more instructions.
+// oyayubi_01 デフォルトキーマップ
+// 左手: docs/左手_配置座標表.md の「キー」列を初期値に使用
+// 右手: QWERTY 配列の妥当な初期値。実機確認後に調整する
+// map の順番 = bindings の順番 (行ごとに 左→右)
+// 全 65 キー + エンコーダ 1 個
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    // Define a default keymap here.
-    // See https://zmk.dev/docs/development/hardware-integration/new-shield#default-keymap.
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
+            // ┌──────────────────────────────────────────────────────┐
+            // │  Row0  左:!  @  #  $  %    右:6  7  8  9  0  -  =   │
+            // │  Row1  左:Q  W  E  R  T    右:Y  U  I  O  P  [  ]   │
+            // │  Row2  左:A  S  D  F  G    右:🔇 H  J  K  L  ;  '  \│
+            // │  Row3  左:Z  X  C  V  B    右:⌫  N  M  ,  .  /  ⇪ ↵│
+            // │  Row4  左:⇧ ⌃ ⌥ ⌘ ⌥ ␣ 🔓  右:⌥ ⌃ ⇧ ← ↓ ↑ → ⌦   │
+            // └──────────────────────────────────────────────────────┘
             bindings = <
-                &kp N1 &kp N2    &kp N3 &kp N4
-                &kp A  &kp B     &kp C  &kp D
+                // Row0 (12)
+                &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT
+                &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp MINUS  &kp EQUAL
+
+                // Row1 (12)
+                &kp Q      &kp W      &kp E      &kp R      &kp T
+                &kp Y      &kp U      &kp I      &kp O      &kp P      &kp LBKT   &kp RBKT
+
+                // Row2 (13)
+                &kp A      &kp S      &kp D      &kp F      &kp G
+                &kp C_MUTE &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT    &kp BSLH
+
+                // Row3 (13)
+                &kp Z      &kp X      &kp C      &kp V      &kp B
+                &kp BSPC   &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp CAPS   &kp RET
+
+                // Row4 (15)
+                &kp LSHFT  &kp LCTRL  &kp LALT   &kp LGUI   &kp RALT   &kp SPACE  &studio_unlock
+                &kp RALT   &kp RCTRL  &kp RSHFT  &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT  &kp DEL
             >;
+
+            // 右手エンコーダ: 時計回り=音量UP、反時計=音量DOWN
+            // 左側ビルド時はセンサーが存在しないため ZMK が自動的に無視する
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };

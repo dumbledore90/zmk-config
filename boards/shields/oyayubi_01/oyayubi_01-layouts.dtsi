@@ -1,23 +1,113 @@
-// See https://zmk.dev/docs/development/hardware-integration/physical-layouts
-// for how to configure this.
+// ZMK Studio / DYA Studio 用物理レイアウト定義
+//
+// 座標換算の根拠:
+//   単位: centi-keyunit (ZMK標準, 100 = 1u)
+//   スケール: 1mm = 100 cku (PCB座標(mm) × 100)
+//     → スタガー値 4.25/8.50/12.75/1.23/2.18mm がすべて整数表現 (丸め誤差ゼロ)
+//   キーサイズ: w=1800 × h=1700 (18mm × 17mm ピッチ ≒ Choc 1u)
+//   x,y はキャップ左上角。PCB座標は中心なので換算:
+//     x_topleft = (PCB_X - 9mm) * 100 + 900 = PCB_X * 100  (左手 Col0=0mm で正規化)
+//     y_topleft = (PCB_Y - 8.5mm) * 100 + 850 = PCB_Y * 100 (Row0 の最高キー Y=0mm で正規化)
+//   右ハーフ x_offset = 11700 (左端 117mm×100) + 2000 (20mm ギャップ) = 13700
+//
+// 座標元データ: docs/左手_配置座標表.md / docs/右手_配置座標表.md (実測値)
+//
+// 配列順: default_transform の map と同じ順 (行ごとに左→右)
 
 #include <physical_layouts.dtsi>
 
 / {
     default_layout: default_layout {
         compatible = "zmk,physical-layout";
-        display-name = "Default Layout";
+        display-name = "oyayubi_01";
         transform = <&default_transform>;
         kscan = <&kscan>;
 
-        // Edit this to define the positions and sizes of the keys, or remove it
-        // if your keyboard will not support ZMK Studio.
-        // https://zmk.dev/docs/development/hardware-integration/physical-layouts#optional-keys-property
-        keys  //                     w   h    x    y     rot    rx    ry
-            = <&key_physical_attrs 100 100    0    0       0     0     0>
-            , <&key_physical_attrs 100 100  100    0       0     0     0>
-            , <&key_physical_attrs 100 100    0  100       0     0     0>
-            , <&key_physical_attrs 100 100  100  100       0     0     0>
+        keys  //                     w     h      x      y   rot   rx   ry
+            // ── Row0: 左 Col0-4 + 右 Col1-7 (12 keys) ──────────────────────
+            // 左
+            = <&key_physical_attrs 1800 1700      0   1152     0    0    0>  // L R0C0  SW1  !
+            , <&key_physical_attrs 1800 1700   1800    425     0    0    0>  // L R0C1  SW6  @
+            , <&key_physical_attrs 1800 1700   3600      0     0    0    0>  // L R0C2  SW11 #  ← 最上キー
+            , <&key_physical_attrs 1800 1700   5400    850     0    0    0>  // L R0C3  SW16 $
+            , <&key_physical_attrs 1800 1700   7200   1057     0    0    0>  // L R0C4  SW21 %
+            // 右 (Col1-7, Col0 は Row0 に存在しない)
+            , <&key_physical_attrs 1800 1700  15500   1275     0    0    0>  // R R0C1  SW3
+            , <&key_physical_attrs 1800 1700  17300    850     0    0    0>  // R R0C2  SW8
+            , <&key_physical_attrs 1800 1700  19100      0     0    0    0>  // R R0C3  SW13 ← 最上キー
+            , <&key_physical_attrs 1800 1700  20900    425     0    0    0>  // R R0C4  SW18
+            , <&key_physical_attrs 1800 1700  22700   1275     0    0    0>  // R R0C5  SW23
+            , <&key_physical_attrs 1800 1700  24500   1275     0    0    0>  // R R0C6  SW28
+            , <&key_physical_attrs 1800 1700  26300   1275     0    0    0>  // R R0C7  SW33
+
+            // ── Row1: 左 Col0-4 + 右 Col1-7 (12 keys) ──────────────────────
+            // 左
+            , <&key_physical_attrs 1800 1700      0   2852     0    0    0>  // L R1C0  SW2  Q
+            , <&key_physical_attrs 1800 1700   1800   2125     0    0    0>  // L R1C1  SW7  W
+            , <&key_physical_attrs 1800 1700   3600   1700     0    0    0>  // L R1C2  SW12 E
+            , <&key_physical_attrs 1800 1700   5400   2550     0    0    0>  // L R1C3  SW17 R
+            , <&key_physical_attrs 1800 1700   7200   2757     0    0    0>  // L R1C4  SW22 T
+            // 右
+            , <&key_physical_attrs 1800 1700  15500   2975     0    0    0>  // R R1C1  SW4  Y
+            , <&key_physical_attrs 1800 1700  17300   2550     0    0    0>  // R R1C2  SW9  U
+            , <&key_physical_attrs 1800 1700  19100   1700     0    0    0>  // R R1C3  SW14 I
+            , <&key_physical_attrs 1800 1700  20900   2125     0    0    0>  // R R1C4  SW19 O
+            , <&key_physical_attrs 1800 1700  22700   2975     0    0    0>  // R R1C5  SW24 P
+            , <&key_physical_attrs 1800 1700  24500   2975     0    0    0>  // R R1C6  SW29
+            , <&key_physical_attrs 1800 1700  26300   2975     0    0    0>  // R R1C7  SW34
+
+            // ── Row2: 左 Col0-4 + 右 Col0-7 (13 keys) ──────────────────────
+            // 左
+            , <&key_physical_attrs 1800 1700      0   4552     0    0    0>  // L R2C0  SW3  A
+            , <&key_physical_attrs 1800 1700   1800   3825     0    0    0>  // L R2C1  SW8  S
+            , <&key_physical_attrs 1800 1700   3600   3400     0    0    0>  // L R2C2  SW13 D
+            , <&key_physical_attrs 1800 1700   5400   4250     0    0    0>  // L R2C3  SW18 F
+            , <&key_physical_attrs 1800 1700   7200   4457     0    0    0>  // L R2C4  SW23 G
+            // 右 Col0 = エンコーダプッシュ SW39 (PCB X=-1mm)
+            , <&key_physical_attrs 1800 1700  13600   4600     0    0    0>  // R R2C0  SW39 ENC_PUSH
+            , <&key_physical_attrs 1800 1700  15500   4675     0    0    0>  // R R2C1  SW5  H
+            , <&key_physical_attrs 1800 1700  17300   4250     0    0    0>  // R R2C2  SW10 J
+            , <&key_physical_attrs 1800 1700  19100   3400     0    0    0>  // R R2C3  SW15 K
+            , <&key_physical_attrs 1800 1700  20900   3825     0    0    0>  // R R2C4  SW20 L
+            , <&key_physical_attrs 1800 1700  22700   4675     0    0    0>  // R R2C5  SW25 ;
+            , <&key_physical_attrs 1800 1700  24500   4675     0    0    0>  // R R2C6  SW30 '
+            , <&key_physical_attrs 1800 1700  26300   4675     0    0    0>  // R R2C7  SW35 \
+
+            // ── Row3: 左 Col0-4 + 右 Col0-7 (13 keys) ──────────────────────
+            // 左
+            , <&key_physical_attrs 1800 1700      0   6252     0    0    0>  // L R3C0  SW4  Z
+            , <&key_physical_attrs 1800 1700   1800   5525     0    0    0>  // L R3C1  SW9  X
+            , <&key_physical_attrs 1800 1700   3600   5100     0    0    0>  // L R3C2  SW14 C
+            , <&key_physical_attrs 1800 1700   5400   5950     0    0    0>  // L R3C3  SW19 V
+            , <&key_physical_attrs 1800 1700   7200   6157     0    0    0>  // L R3C4  SW24 B
+            // 右
+            , <&key_physical_attrs 1800 1700  13700   6375     0    0    0>  // R R3C0  SW1
+            , <&key_physical_attrs 1800 1700  15500   6375     0    0    0>  // R R3C1  SW6  N
+            , <&key_physical_attrs 1800 1700  17300   5950     0    0    0>  // R R3C2  SW11 M
+            , <&key_physical_attrs 1800 1700  19100   5100     0    0    0>  // R R3C3  SW16 ,
+            , <&key_physical_attrs 1800 1700  20900   5525     0    0    0>  // R R3C4  SW21 .
+            , <&key_physical_attrs 1800 1700  22700   6375     0    0    0>  // R R3C5  SW26 /
+            , <&key_physical_attrs 1800 1700  24500   6375     0    0    0>  // R R3C6  SW31
+            , <&key_physical_attrs 1800 1700  26300   6375     0    0    0>  // R R3C7  SW36
+
+            // ── Row4: 左 Col0-6 + 右 Col0-7 (15 keys) ──────────────────────
+            // 左 (フラット行, Y=80.75 全列共通)
+            , <&key_physical_attrs 1800 1700      0   8075     0    0    0>  // L R4C0  SW5  Shift
+            , <&key_physical_attrs 1800 1700   1800   8075     0    0    0>  // L R4C1  SW10 Ctrl
+            , <&key_physical_attrs 1800 1700   3600   8075     0    0    0>  // L R4C2  SW15 Alt
+            , <&key_physical_attrs 1800 1700   5400   8075     0    0    0>  // L R4C3  SW20 GUI
+            , <&key_physical_attrs 1800 1700   7200   8075     0    0    0>  // L R4C4  SW25 RAlt
+            , <&key_physical_attrs 1800 1700   9000   8075     0    0    0>  // L R4C5  SW26 Space
+            , <&key_physical_attrs 1800 1700  10800   8075     0    0    0>  // L R4C6  SW27 (studio_unlock)
+            // 右 (フラット行)
+            , <&key_physical_attrs 1800 1700  13700   8075     0    0    0>  // R R4C0  SW2
+            , <&key_physical_attrs 1800 1700  15500   8075     0    0    0>  // R R4C1  SW7
+            , <&key_physical_attrs 1800 1700  17300   8075     0    0    0>  // R R4C2  SW12
+            , <&key_physical_attrs 1800 1700  19100   8075     0    0    0>  // R R4C3  SW17
+            , <&key_physical_attrs 1800 1700  20900   8075     0    0    0>  // R R4C4  SW22
+            , <&key_physical_attrs 1800 1700  22700   8075     0    0    0>  // R R4C5  SW27
+            , <&key_physical_attrs 1800 1700  24500   8075     0    0    0>  // R R4C6  SW32
+            , <&key_physical_attrs 1800 1700  26300   8075     0    0    0>  // R R4C7  SW37
             ;
     };
 };

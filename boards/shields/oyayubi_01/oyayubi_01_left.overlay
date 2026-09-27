@@ -1,14 +1,23 @@
-// This file was generated from a template. Edit it to match your keyboard.
-// See https://zmk.dev/docs/development/hardware-integration/new-shield for more
-// instructions.
-
 #include "oyayubi_01.dtsi"
 
+// 左手 (central) の GPIO アサイン
+// ピン番号の出典: docs/xiao_gpio_map_v2.md
+// &xiao_d は D11 以降未定義のため使わず、全ピン &gpio0/&gpio1 で直接指定
+
 &kscan {
-    // Replace these comments with the GPIO pins in the matrix for the left side.
-    // See https://zmk.dev/docs/development/hardware-integration/new-shield#shield-overlays
-    col-gpios
-        = <&xiao_d 0 GPIO_ACTIVE_HIGH>
-        , <&xiao_d 0 GPIO_ACTIVE_HIGH>
-        ;
+    row-gpios =
+        <&gpio0 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // Row0 / D0  / P0.02
+        <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // Row1 / D10 / P1.15
+        <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // Row2 / D9  / P1.14
+        <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // Row3 / D8  / P1.13
+        <&gpio1 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  // Row4 / D7  / P1.12
+
+    col-gpios =
+        <&gpio0 15 GPIO_ACTIVE_HIGH>,  // Col0 / D11 / P0.15
+        <&gpio0 3  GPIO_ACTIVE_HIGH>,  // Col1 / D1  / P0.03
+        <&gpio0 28 GPIO_ACTIVE_HIGH>,  // Col2 / D2  / P0.28
+        <&gpio0 29 GPIO_ACTIVE_HIGH>,  // Col3 / D3  / P0.29
+        <&gpio0 4  GPIO_ACTIVE_HIGH>,  // Col4 / D4  / P0.04
+        <&gpio0 5  GPIO_ACTIVE_HIGH>,  // Col5 / D5  / P0.05
+        <&gpio1 11 GPIO_ACTIVE_HIGH>;  // Col6 / D6  / P1.11
 };

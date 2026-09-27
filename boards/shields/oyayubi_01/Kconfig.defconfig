@@ -12,9 +12,8 @@ if SHIELD_OYAYUBI_01_RIGHT
 
 config EC11
     default y
-
-config EC11_TRIGGER_GLOBAL_THREAD
-    default y
+# EC11_TRIGGER_GLOBAL_THREAD は choice シンボルのため default y は使えない
+# ZMK の EC11 Kconfig が default EC11_TRIGGER_GLOBAL_THREAD を持つので不要
 
 endif # SHIELD_OYAYUBI_01_RIGHT
 
